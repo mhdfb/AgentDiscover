@@ -1,0 +1,4 @@
+# CORAL's seed pyproject declares these two (examples/math/minimizing_max_min_dist_3d/
+# seed/pyproject.toml); the metric itself is scipy's pdist.
+numpy>=1.24.0
+scipy>=1.10.0

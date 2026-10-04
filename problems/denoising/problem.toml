@@ -1,0 +1,35 @@
+[limits]
+# TTT-Discover's figures for this task: the statement gives the candidate's code 400 s
+# ("Time budget: 400s for your code to run"), and their sandbox kills the whole
+# evaluation — data loading, the candidate, both metrics — at 530 s (eval_timeout).
+# solve_seconds is the candidate's share, enforced on its own process; wall_seconds caps
+# everything around it (reading the 1,937 x 15,502 inDrop1 matrix from the h5ad, the
+# binomial split, the two metrics), measured well under a minute.
+solve_seconds = 400
+# 400 s of candidate time plus the library imports of the scorer and of the candidate's
+# process, which come off the network file system here (~2 min each on a compute node;
+# the budget's clock starts only after them), plus the split and the metrics.
+wall_seconds = 1200
+# Address-space cap. Their sandbox allotted 3 GB of memory to the candidate (the paper's
+# figure, enforced as resident memory by ray). An address-space cap has to leave room
+# for what numpy, scipy, scikit-learn and numba reserve at import on top of the data
+# (the dense training matrix is 240 MB), so it sits higher; a candidate using more than
+# 3 GB resident would have been killed there and is not here.
+mem_gb = 12.0
+# CPU-seconds cap = wall_seconds x cpus per process. The candidate itself is pinned to
+# ONE core with one-thread pools by evaluator.py (their setting); the slack here is for
+# the scorer and the interpreter start-up around it.
+cpus = 2.0
+# The training matrix crosses to the candidate's process as a file and the denoised
+# matrix comes back the same way: 1,937 x ~15,000 float64, ~240 MB each. The default
+# 256 MB file cap sat on that edge (a numpy write failed there, 2026-10-01).
+fsize_mb = 2048
+
+[agent]
+# The same pinned libraries inside the session's sandbox, so the agent can run
+# `python3 /resources/evaluator.py solution.py` before submitting: the task statement
+# itself tells it to time its code against the budget.
+mount_deps = true
+# The data set too (read-only at $AGENTDISCOVER_DATA_DIR): the local run above needs the
+# pancreas file, and the split it scores against is the evaluator's, seed 42.
+mount_data = true

@@ -1,0 +1,16 @@
+# TTT-Discover's pins for this task (requirements/denoising/requirements-denoising.txt,
+# the single-cell section), so a candidate meets the same library versions. The five
+# libraries the task statement allows (numpy, scipy, sklearn, graphtools, scprep,
+# scanpy) plus magic-impute, which they install, and the file format libraries anndata
+# needs to read the data set.
+numpy==2.3.5
+scipy==1.17.0
+scikit-learn==1.8.0
+pandas==2.3.3
+matplotlib==3.10.8
+scanpy==1.11.5
+anndata==0.12.7
+scprep==1.1.0
+graphtools==2.1.0
+numba==0.63.1
+magic-impute==3.0.0

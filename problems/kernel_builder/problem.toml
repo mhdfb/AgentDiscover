@@ -1,0 +1,20 @@
+[limits]
+# wall_seconds is the reference implementation's own figure for this task, so the number
+# stays comparable. solve_seconds is the share the candidate controls: building the
+# instruction list. 14 s is what the reference grader effectively allows a builder —
+# it reconstructs the kernel inside each of the 8 correctness trials under a single 120 s
+# cap, so the kernel it scores can cost at most ~120/8 of builder time. We build once and
+# replay that one list on 8 inputs, which is the stricter correctness test, so the budget
+# is matched here instead. The shipped seed builds in 0.15 s; the 8 simulations take
+# ~0.7 s in total.
+solve_seconds = 14
+wall_seconds = 120
+# The simulator holds a 1536-word scratch and a small memory image per run; the seed's
+# 11,910-instruction program is a few MB as Python objects. Nothing here needs more.
+mem_gb = 4.0
+# On the singularity backend `cpus` does not pin cores — it only sets a CPU-seconds
+# ulimit of wall_seconds x cpus. At 1.0 that is 120 CPU-seconds, which would kill a
+# builder that searches schedules across processes, while the reference grader runs
+# uncapped on this 96-core host. Set to the host's core count so the CPU-seconds cap is
+# not the binding limit; wall_seconds and the 14 s build timeout still bound the run.
+cpus = 96.0

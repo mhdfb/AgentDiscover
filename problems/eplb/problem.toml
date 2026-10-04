@@ -1,0 +1,13 @@
+[limits]
+# 360 s is CORAL's own figure for this task (`grader.timeout` in their
+# examples/ADRS/eplb/task.yaml, and the same number in SkyDiscover's config.yaml), so
+# our result stays comparable. solve_seconds is the share of it the candidate controls:
+# the evaluator calls `rebalance_experts` once per recorded workload and times it, and
+# half the score is how fast those calls are, so the budget is generous on purpose —
+# spending it is what the speed term punishes, not a timeout.
+solve_seconds = 300
+wall_seconds = 360
+
+# Bigger than the 4 GB default: the evaluator loads 224 MB of recorded load history as
+# JSON and holds it as tensors, on top of torch itself. Measured peak is well under this.
+mem_gb = 12.0

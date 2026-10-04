@@ -1,0 +1,8 @@
+[agent]
+mount_deps = true
+
+[limits]
+solve_seconds = 1000
+wall_seconds = 1100
+cpus = 2
+mem_gb = 24

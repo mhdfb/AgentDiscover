@@ -1,0 +1,9 @@
+[limits]
+# solve_seconds is the budget the genome may spend inside solve(); wall_seconds caps the
+# whole evaluation (interpreter start, imports and verification all run outside solve).
+#
+# 600 s is CORAL's own figure for this task, not a choice of ours: SkyDiscover's
+# benchmarks/ADRS/cloudcast/config.yaml sets `evaluator.timeout: 600`. Matching it
+# exactly is what makes our number comparable to theirs.
+solve_seconds = 600
+wall_seconds = 700

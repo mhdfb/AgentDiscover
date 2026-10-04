@@ -1,0 +1,18 @@
+[limits]
+# solve_seconds is the budget the genome may spend inside solve(); wall_seconds caps the
+# whole evaluation and must stay above it (interpreter start, imports and verification all
+# run outside solve).
+#
+# 600 s is chosen from what the other systems actually use in their code, not their papers:
+#   OpenEvolve    EvaluatorConfig.timeout   default 300 s
+#   CORAL         framework default 300 s; every published task config sets 600 s
+#   ShinkaEvolve  docs example: job.time=00:10:00  (600 s)
+#   ThetaEvolve   per-task (Table 8): CirclePacking 70, ThirdAutoCorrIneq 70,
+#                 SecondAutoCorrIneq 350, HadamardMatrix 350, FirstAutoCorrIneq 1150
+#   AlphaEvolve-v2  1000 s for FirstAutoCorrIneq (reported by ThetaEvolve)
+#
+# So the field runs from 70 s to 1150 s. 600 s matches CORAL — the strongest published
+# result on these tasks — and ShinkaEvolve, and is at or above every other figure except
+# the FirstAutoCorrIneq variants, which are not among our problems.
+solve_seconds = 600
+wall_seconds = 700

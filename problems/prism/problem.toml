@@ -1,0 +1,14 @@
+[limits]
+# Both figures come from CORAL's own settings for this task, so our number stays
+# comparable to theirs:
+#
+#   * wall_seconds 360 is `grader.timeout: 360` in their examples/ADRS/prism/task.yaml —
+#     the cap on a whole evaluation.
+#   * solve_seconds is what the candidate actually controls. Their evaluator gives each
+#     of the 50 test cases 10 s (`run_with_timeout(..., 10)`) and a case that overruns
+#     counts as a failure (10^6 towards the mean KVPR, 0 towards the success rate). Fifty
+#     10 s calls would not fit the 360 s cap, so the binding budget is the total: 300 s
+#     across all 50 calls leaves the interpreter start-up and the scoring their margin
+#     under 360. The briefing quotes this number; PROBLEM.md states both.
+solve_seconds = 300
+wall_seconds = 360

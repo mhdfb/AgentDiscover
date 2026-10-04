@@ -1,0 +1,45 @@
+[limits]
+# wall_seconds caps the entire evaluation. 360 s is CORAL's own figure for this task,
+# not a choice of ours: their examples/ADRS/llm_sql/task.yaml sets `grader.timeout: 360`,
+# and SkyDiscover's benchmarks/ADRS/llm_sql/config.yaml sets `evaluator.timeout: 360`.
+# Matching it exactly is what makes our number comparable to theirs.
+#
+# solve_seconds is the budget the genome may spend inside Evolved.reorder — all FIVE
+# calls together, not one call, because CORAL's single timeout covers the whole
+# evaluation. It is what is left of the 360 s after scoring, whose cost depends on the
+# candidate's OUTPUT, not its code: the character-trie hit count over ~68 M characters
+# is cheap when consecutive rows share long prefixes and expensive when they do not.
+# Measured through the platform's own sandboxed path (singularity, pandas 2.3.3), and
+# once more standalone in the same image for the peak memory:
+#
+#   candidate            reorder (5 calls)   scoring + validation   peak RSS   score
+#   seed (recursive)        100–130 s              75–105 s          1.9 GB    0.686
+#   sort by column stats      1.5 s                 ~80 s            1.8 GB    0.704
+#   identity (no reorder)     0.2 s                ~210 s            9.7 GB    0.093
+#
+# so 240 s of reorder + ~105 s of scoring + start-up fits 360 s for any candidate that
+# is at least as good as the seed, and a candidate that is both slow AND poor can time
+# out — exactly as it would under CORAL's single 360 s grader timeout. A candidate
+# spending anywhere near the budget has already forfeited the speed term (12 s per data
+# set on average scores 0 there), so the cap is a safety net, not a design constraint.
+solve_seconds = 240
+wall_seconds = 360
+# Address-space cap. The trie is the big allocation and it grows the LESS the rows
+# share: 1.9 GB resident on the seed's output, 9.7 GB on unreordered tables. A poor
+# candidate must score low, not be killed, so the cap sits well above the worst case
+# measured; the thread pools (up to 32 threads each, the seed's and the metric's)
+# reserve address space on top of resident memory.
+mem_gb = 24.0
+# CPU-seconds cap = wall_seconds x cpus. The task's own API has a `parallel` flag and the
+# speed term rewards wall clock, so a candidate that spreads its work over several
+# cores is playing the game as designed and must not be killed for it. Under
+# singularity this number caps CPU time only; it pins nothing.
+cpus = 8.0
+
+[agent]
+# The evaluator's pinned pandas 2.x and numpy inside the agent sandbox too. Without them the
+# agent cannot run solution.py locally, although PROBLEM.md tells it to: Opus (2026-09-06)
+# hit the import error once and submitted blind; gpt-4o-mini (2026-09-10) spent three whole
+# sessions trying to pip-install pandas and submitted nothing. CORAL's worktree has both
+# via its `uv sync` step, so this is parity, not an advantage.
+mount_deps = true

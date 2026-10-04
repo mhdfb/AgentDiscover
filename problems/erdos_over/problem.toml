@@ -1,0 +1,32 @@
+[limits]
+# solve_seconds is the budget the genome may spend inside run(); wall_seconds caps the
+# whole evaluation (interpreter start, imports and the checks all run outside run()).
+#
+# 1000 / 1100 s matches TTT-Discover, NOT CORAL. TTT-Discover (Yuksekgonul et al.,
+# arXiv:2601.16175) holds the 0.380875 record this problem's target comes from, and its
+# harness gives the model `budget_s=1000` with `eval_timeout=1100`
+# (examples/erdos_min_overlap/env.py). CORAL's own figure is 600 s
+# (examples/math/erdos_min_overlap/task.yaml, `grader.timeout: 600`), which this bundle
+# used until 2026-09-07.
+#
+# The consequence for comparisons, stated plainly: a number produced under this budget
+# is comparable to TTT-Discover's 0.380875 and NOT to CORAL's 0.38089. The earlier run
+# under 600 s reached 0.3808999 and is the CORAL-comparable figure — see
+# paper/benchmark.md before quoting either.
+#
+# The check itself is one np.correlate in "full" mode, O(n_points^2): instant at the
+# seed's n = 200 and, measured in the platform image, 0.06 s at n = 20 000, 0.4 s at
+# 50 000 and 1.9 s at 100 000. There is no cap on n_points, as there is none in CORAL
+# or TTT-Discover; 100 s of margin covers any grid a published construction has used
+# many times over (TTT's own record uses n = 600).
+solve_seconds = 1000
+wall_seconds = 1100
+
+[agent]
+# Give the SEARCH AGENT the same solver toolbox the evaluator installs (cvxpy and its
+# backends — see evaluator/requirements.txt). Without this the agent's sandbox has only
+# the platform image's numpy/scipy, so it could not develop or test a cvxpy-based
+# optimiser before submitting it, and would discover the library only by having a
+# candidate scored. TTT-Discover names its solver list directly in the task prompt, so
+# its model knows what it may use; this is the equivalent.
+mount_deps = true

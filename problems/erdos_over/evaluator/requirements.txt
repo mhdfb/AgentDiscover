@@ -1,0 +1,31 @@
+# CORAL's seed pyproject declares numpy and scipy (examples/math/erdos_min_overlap/
+# seed/pyproject.toml); the metric itself is np.correlate.
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Convex-optimisation modelling plus solver backends, to match the toolbox TTT-Discover
+# offers on this task ("Use scipy, numpy, cvxpy[CBC,CVXOPT,GLOP,GLPK,GUROBI,MOSEK,PDLP,
+# SCIP,XPRESS,ECOS], math"). They matter because the inner step of this problem is a
+# linear program: with the binding shifts fixed, minimising the max correlation subject
+# to h in [0,1] and sum(h) = n/2 is an LP.
+#
+# What we can and cannot supply:
+#   * GUROBI, MOSEK, XPRESS are commercial and need a licence — not available here.
+#   * GLOP and PDLP come from ortools, whose bundled libortools.so clashes with the
+#     HiGHS symbols scipy already exports ("undefined symbol: setLocalOptionValue...").
+#     ortools is therefore left out rather than shipped broken; both are LP solvers and
+#     HiGHS, GLPK, SCIP and CLARABEL cover the same ground.
+#   * ECOS has no wheel for this Python and fails to build from source; SCS and CLARABEL
+#     are its modern replacements and are here.
+#
+# Verified working in the platform image, via cvxpy.installed_solvers():
+#   CLARABEL, CVXOPT, GLPK, GLPK_MI, HIGHS, OSQP, SCIP, SCIPY, SCS
+# scipy.optimize.linprog(method="highs") is available independently of cvxpy.
+#
+# Wheels only (--only-binary is not expressible here, but every pin below has one).
+cvxpy
+cvxopt
+scs
+clarabel
+osqp
+pyscipopt

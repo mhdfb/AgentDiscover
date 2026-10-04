@@ -1,0 +1,12 @@
+# The versions GPUMode's TriMul runner image carries (TTT-Discover,
+# examples/gpu_mode/lib/runners/modal_runner_archs.py: torch 2.7 from the cu128 index,
+# which brings triton 3.3.1 — the version the task statement names). CUDA wheels, so the
+# kernel compiles and times on the GPU; the runtime libraries come with them, the host
+# only needs the driver.
+--index-url https://download.pytorch.org/whl/cu128
+--extra-index-url https://pypi.org/simple
+torch==2.7.1
+triton==3.3.1
+numpy>=2.3,<2.4
+# evaluator.py reads task.yml, the competition's own case list.
+PyYAML

@@ -1,0 +1,8 @@
+[evaluator]
+image = "docker.io/yimjk/ale-bench:cpp20-202301"
+
+[limits]
+wall_seconds = 530
+cpus = 2
+nproc = 256
+fsize_mb = 256

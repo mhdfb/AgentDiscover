@@ -1,0 +1,7 @@
+[limits]
+# 600 s is CORAL's own figure for this task (`grader.timeout` in their
+# examples/math/third_autocorr_ineq/task.yaml, and `evaluator.timeout` in SkyDiscover's
+# config.yaml), so our number stays comparable. It is the budget run() may spend;
+# wall_seconds leaves room on top for interpreter start, imports and the verification.
+solve_seconds = 600
+wall_seconds = 700

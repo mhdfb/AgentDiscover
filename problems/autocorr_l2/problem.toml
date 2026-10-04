@@ -1,0 +1,10 @@
+[agent]
+mount_deps = true
+
+[limits]
+# Match TTT-Discover: advertise 1000 s, but always enforce its 1100 + 5 s
+# candidate deadline. The outer cap leaves time for verification and cleanup.
+solve_seconds = 1000
+wall_seconds = 1200
+cpus = 2
+mem_gb = 24

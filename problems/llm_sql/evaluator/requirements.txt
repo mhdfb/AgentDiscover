@@ -1,0 +1,11 @@
+# pandas 2.x on purpose. CORAL's one change to SkyDiscover's seed — `df.astype(str)` at
+# the top of `reorder`, their "type handling" fix (paper, Appendix D.3) — relies on 2.x
+# semantics, where a missing value becomes the string "nan". Under pandas 3.x `astype(str)`
+# keeps missing values missing and `stack()` keeps them too, so the seed dies on PDMX.csv
+# with `KeyError: nan` and the metric itself shifts (a null counts 0 characters instead
+# of 3). Measured here with 3.0.1 and 3.0.5: score 0, "1 or more files failed to run";
+# with 2.3.3 the seed scores 0.686. Only 2.x makes CORAL's fix mean what they say it
+# means, so 2.x is the environment their number is comparable in.
+pandas>=2.2,<3
+# SkyDiscover's own pin (benchmarks/ADRS/llm_sql/evaluator/requirements.txt).
+networkx>=3.2,<3.4

@@ -1,0 +1,4 @@
+# The one package CORAL's grader installs for this task (examples/ADRS/prism/grader/
+# pyproject.toml: numpy). The platform image carries it too, so the agent's sandbox
+# and the evaluator import the same library without a deps mount.
+numpy

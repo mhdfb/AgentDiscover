@@ -1,0 +1,38 @@
+# AgentDiscover — the platform image, as a Singularity/Apptainer definition.
+#
+# Mirrors the Dockerfile, for machines that have no Docker and cannot pull the published
+# image. Build it with scripts/build-image-singularity.sh. Keep the two files in step:
+# a package pinned here must be pinned there. No secrets, as in the Dockerfile.
+
+Bootstrap: docker
+From: python:3.13-slim
+
+%environment
+    export PYTHONUNBUFFERED=1
+    export PIP_NO_CACHE_DIR=1
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    # git, curl, procps; g++ and the AtCoder judge's libraries for compiling C++ tasks.
+    apt-get update && apt-get install -y --no-install-recommends \
+        git curl ca-certificates procps \
+        g++ libboost-dev libeigen3-dev libgmp-dev
+    # ac-library at the judge's path; v1.5.1 is the judge's version.
+    git clone --depth 1 --branch v1.5.1 https://github.com/atcoder/ac-library.git /opt/ac-library
+    rm -rf /opt/ac-library/.git
+    # Node 24, for the coding-agent CLIs.
+    curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
+    apt-get install -y --no-install-recommends nodejs
+    rm -rf /var/lib/apt/lists/*
+    # The coding agents, pinned so a run is reproducible. Bump deliberately in both files.
+    npm install -g --no-fund --no-audit \
+        @anthropic-ai/claude-code@2.1.287 \
+        @openai/codex@0.159.2
+    npm cache clean --force
+    # neo4j for the graph; numpy, scipy and PyWavelets so an agent can run solution.py.
+    pip install --no-cache-dir neo4j==5.28.1 numpy==2.5.2 scipy==1.18.1 PyWavelets==1.9.0
+    # A neutral working directory; every runtime mounts the real worktree over /work.
+    mkdir -p /work
+
+%runscript
+    exec /bin/bash "$@"

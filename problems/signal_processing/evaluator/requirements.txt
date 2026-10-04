@@ -1,0 +1,6 @@
+# Same three packages SkyDiscover's bundle installs, so a candidate that runs there
+# runs here: numpy and scipy for the metric, PyWavelets because the task description
+# names wavelet methods as one of the families worth trying.
+numpy>=1.21.0
+scipy>=1.7.0
+PyWavelets

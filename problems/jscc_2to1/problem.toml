@@ -1,0 +1,17 @@
+[limits]
+# solve_seconds is the budget the genome may spend inside get_curve() — the WHOLE sweep,
+# seven calls plus the determinism repeat, not one call. wall_seconds caps the entire
+# evaluation, and the scoring that follows solve() is the expensive half here.
+#
+# Both numbers are measured, not chosen round. Scoring cost is dominated by the
+# nearest-point projection, which scales with the encoder grid = min(4P, 40000):
+#
+#   * P = 4001 (the seed's table):   74 s end to end
+#   * P = 19999 (the MAX_POINTS cap): 193 s end to end
+#
+# measured in the platform image with threads pinned to 1, as evaluate.sh runs it. The
+# cap case is the one that has to fit: 300 s of get_curve + 193 s of scoring + start-up
+# lands near 500 s, so 660 s leaves real margin. A candidate is never penalised in score
+# for using the largest table the cap allows.
+solve_seconds = 300
+wall_seconds = 660

@@ -1,0 +1,16 @@
+# AgentDiscover — host-side platform code (orchestrator + MCP service).
+# This environment runs outside any container; agents never execute anything from it.
+# Setup is `uv sync` (script/setup does it); uv installs a suitable Python by itself.
+
+[project]
+name = "agentdiscover"
+version = "0.1.0"
+description = "Evolutionary search platform: parallel coding agents + graph history + meta agent"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.16",
+    "neo4j>=5.28",
+]
+
+[tool.uv]
+package = false

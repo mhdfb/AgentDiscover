@@ -1,0 +1,17 @@
+[limits]
+# Both figures come from SkyDiscover's own settings for this task, so our number stays
+# comparable to theirs:
+#
+#   * wall_seconds 360 is `evaluator.timeout: 360` in
+#     benchmarks/math/signal_processing/config.yaml — the cap on a whole evaluation.
+#   * solve_seconds 50 is the budget the candidate actually controls: their evaluator
+#     gives each of the five test signals 10 s (`run_with_timeout(..., 10)`), and a
+#     signal that overruns is dropped and counts against the success-rate term. The
+#     briefing quotes this number, and PROBLEM.md states the per-signal 10 s that
+#     really binds.
+#
+# (SkyDiscover also runs a two-stage cascade, gating the full evaluation behind a quick
+# smoke test at 0.3/0.6. That only saves compute — a candidate that passes is scored by
+# the same code — so we evaluate every candidate fully instead.)
+solve_seconds = 50
+wall_seconds = 360

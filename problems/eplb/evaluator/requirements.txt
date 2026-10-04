@@ -1,0 +1,5 @@
+# CPU-only wheels. The evaluation sandbox has no GPU and no network, and the default
+# PyPI torch is a multi-gigabyte CUDA build: pulling it took over nine minutes here,
+# against under one for this index.
+--index-url https://download.pytorch.org/whl/cpu
+torch

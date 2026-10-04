@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# AgentDiscover setup — everything the host needs, no root required:
+#   - git, curl
+#   - uv                         (installed here, into ~/.local/bin)
+#   - one container runtime      (docker, podman, apptainer, singularity, or enroot)
+# Python comes from uv; Node and the coding-agent CLIs live in the container image.
+set -euo pipefail
+
+FAILED=0
+pass()  { printf '[ok]         %s\n' "$*"; }
+info()  { printf '[installing] %s\n' "$*"; }
+fail()  { printf '[missing]    %s\n' "$*"; FAILED=1; }
+note()  { printf '               %s\n' "$*"; }
+
+echo "=== git & curl (expected to already be present) ==="
+
+for tool in git curl; do
+    if command -v "$tool" >/dev/null 2>&1; then
+        pass "$tool: $("$tool" --version | head -1)"
+    else
+        fail "$tool not found"
+        note "Debian/Ubuntu: sudo apt install $tool   RHEL/Fedora: sudo dnf install $tool   macOS: brew install $tool"
+    fi
+done
+[[ "$FAILED" -eq 1 ]] && { echo; echo "Install the missing tool(s), then re-run."; exit 1; }
+
+echo
+echo "=== uv (Python environment manager) ==="
+
+export PATH="$HOME/.local/bin:$PATH"
+if command -v uv >/dev/null 2>&1; then
+    pass "uv: $(uv --version)"
+else
+    info "uv — user-space install into ~/.local/bin"
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    pass "uv: $(uv --version)"
+fi
+
+info "uv sync (creates .venv with every Python dependency, pinned by uv.lock)"
+( cd "$(dirname "$0")/.." && uv sync -q )
+pass "python environment ready"
+
+echo
+echo "=== container runtime ==="
+
+RUNTIME=""
+for cand in docker podman apptainer singularity enroot; do
+    if command -v "$cand" >/dev/null 2>&1; then RUNTIME="$cand"; break; fi
+done
+if [[ -n "$RUNTIME" ]]; then
+    pass "found $RUNTIME — that is the container runtime this project will use"
+else
+    fail "no container runtime found (docker, podman, apptainer, singularity, enroot)"
+    note "Podman and Apptainer install without root:"
+    note "  https://podman.io/docs/installation    https://apptainer.org/docs/admin/main/installation.html"
+    note "For debugging only, SANDBOX_BACKEND=none runs without a sandbox."
+fi
+
+echo
+echo "=== Claude Code (host side) ==="
+
+# The host needs the Claude CLI only to hold a login (~/.claude is mounted into the
+# sandbox at run time). An ANTHROPIC_API_KEY in .env replaces it.
+ENV_FILE="$(dirname "$0")/../.env"
+if [[ -n "${ANTHROPIC_API_KEY:-}" ]] || grep -qs '^ANTHROPIC_API_KEY=.' "$ENV_FILE"; then
+    pass "ANTHROPIC_API_KEY set — no host login needed"
+elif [[ -f "$HOME/.claude/.credentials.json" ]]; then
+    pass "claude: logged in on this host"
+elif command -v claude >/dev/null 2>&1; then
+    pass "claude: installed, not logged in yet — see step 3 in README.md"
+else
+    info "claude — user-space install into ~/.local/bin"
+    if curl -fsSL https://claude.ai/install.sh | bash; then
+        pass "claude installed — see step 3 in README.md"
+    else
+        fail "could not install claude"
+        note "install it yourself: https://docs.claude.com/en/docs/claude-code/setup"
+        note "or skip the CLI entirely and set ANTHROPIC_API_KEY in .env"
+    fi
+fi
+
+echo
+if [[ "$FAILED" -eq 1 ]]; then
+    echo "One or more items missing above — fix and re-run."
+    exit 1
+fi
+echo "Setup complete. Continue with step 2 in README.md."

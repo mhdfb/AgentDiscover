@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+.venv/
+*.out
+*.err
+.DS_Store
+STOP
+runs/
+logs/*
+!logs/.gitkeep
+.env
+# EPLB workload data: 224 MB of recorded vLLM load history, downloaded per machine
+# (see problems/eplb/PROBLEM.md), never committed.
+problems/eplb/evaluator/expert-load.json
+# LLM-SQL data sets: 69 MB of CSV tables, fetched per machine by evaluator/fetch.sh into
+# runs/llm_sql/eval-data/; this is where a standalone run of the bundle would put them.
+problems/llm_sql/evaluator/datasets/
+CLAUDE.md
+.claude/
+# Scratch space for external code and experiments.
+temp/
+
+# VS Code multi-root workspace files (paths are local)
+*.code-workspace

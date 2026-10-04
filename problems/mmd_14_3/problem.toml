@@ -1,0 +1,11 @@
+[limits]
+# solve_seconds is the budget the genome may spend inside run(); wall_seconds caps the
+# whole evaluation (interpreter start, imports and the scoring all run outside run()).
+#
+# 600 s is CORAL's own figure for this task, not a choice of ours: their
+# examples/math/minimizing_max_min_dist_3d/task.yaml sets `grader.timeout: 600`, and
+# their task text tells the agent "Eval timeout is 600s". Matching it exactly is what
+# makes our number comparable to theirs. Scoring 91 pairwise distances is instant, so
+# 700 s leaves ample margin for start-up.
+solve_seconds = 600
+wall_seconds = 700

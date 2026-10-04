@@ -1,0 +1,32 @@
+[limits]
+# The kernel is compiled, checked and timed on the host's NVIDIA GPU (singularity --nv /
+# docker --gpus). The platform picks the device with AGENTDISCOVER_EVAL_GPUS; keep the agent's
+# own GPU (AGENTDISCOVER_AGENT_GPUS) separate so nothing else runs on the one being timed.
+# TTT-Discover timed this task on H200s; time it on an H200 node to match that.
+gpu = true
+# The harness's own clocks, enforced per phase inside evaluator.py exactly as GPUMode's
+# runner does: 120 s for the import run of submission.py, then task.yml's test_timeout
+# (900 s) for the 4 correctness cases and ranked_timeout (1200 s) for the timed
+# benchmark. This caps the whole evaluation on top of those.
+wall_seconds = 2400
+# Address space is uncapped for GPU problems (see Limits.gpu); this is the container
+# memory cap where the runtime enforces one (docker/podman). The reference builds its
+# weights and the 1.2 GB KV cache on the host before moving them, and the correctness
+# check copies both outputs to the host.
+mem_gb = 64
+# CPU-seconds cap = wall_seconds x cpus per process. A GPU harness spends its CPU time
+# spinning in synchronize calls and in the reference, one or two cores at a time;
+# torch.compile (allowed here) adds inductor's compile workers.
+cpus = 8
+# torch starts a thread per core for OpenMP plus the CUDA driver's own; inductor's
+# compile pool forks more.
+nproc = 4096
+# The Triton and inductor compile caches are written under the run directory.
+fsize_mb = 2048
+
+[agent]
+# The same torch 2.8.0 + triton 3.4.0 inside the session's sandbox, so the agent can run
+# `python3 /resources/evaluator.py solution.py` on its own GPU before submitting — the
+# equivalent of the local tester the AHC tasks ship, and of the Triton toolchain
+# TTT-Discover's policy was told it was writing for.
+mount_deps = true

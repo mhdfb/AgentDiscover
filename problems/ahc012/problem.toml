@@ -1,0 +1,12 @@
+[evaluator]
+image = "docker.io/yimjk/ale-bench:cpp20-202301"
+
+[limits]
+# ALE-Bench gives compilation 60 s; 50 cases at 13 workers take at most
+# four waves of 3.2/4.2 s plus tester overhead. This caps the whole adapter,
+# not a candidate's 2/3-second per-case task limit.
+wall_seconds = 300
+mem_gb = 32
+cpus = 13
+nproc = 512
+fsize_mb = 256
