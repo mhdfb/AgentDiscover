@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding</title>
+
+<meta name="description" content="AgentDiscover lets a coding agent plan the search itself: it queries a graph database of every past idea and candidate, runs experiments, and submits candidates to a scoring server. Better results at lower model spend than existing discovery frameworks.">
+<meta property="og:title" content="AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding">
+<meta property="og:description" content="A coding agent plans the evolutionary search itself, using a graph database of past attempts as long-term memory.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://mhdfb.github.io/AgentDiscover/static/images/teaser.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/css/index.css">
+</head>
+
+<body>
+
+<!-- ───────────────────────────── header ───────────────────────────── -->
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <span>Texas A&amp;M University</span>
+      <span>Preprint &nbsp;·&nbsp; 2026</span>
+    </div>
+
+    <div class="hero-text">
+      <h1 class="title">AgentDiscover</h1>
+      <p class="tagline">Autonomous Discovery with Minimal Search Scaffolding</p>
+      <hr class="rule">
+      <p class="authors">
+        <a href="https://scholar.google.com/citations?user=4hl12EQAAAAJ">Mahdi Farahbakhsh</a>,
+        <span>Ilan Sela</span>,
+        <a href="https://scholar.google.com/citations?user=7noAGCMAAAAJ">Fatemeh Doudi</a>,
+        <a href="https://scholar.google.com/citations?user=eQwm1OUAAAAJ">Vishnu Teja Kunde</a>,
+        <a href="https://scholar.google.com/citations?user=oDivxXQAAAAJ">Krishna Narayanan</a>,
+        <a href="https://scholar.google.com/citations?user=8Dk3NR0AAAAJ">Jean-Francois Chamberland</a>,
+        <a href="https://scholar.google.com/citations?user=S24XFwwAAAAJ">Dileep Kalathil</a>
+      </p>
+      <nav class="links">
+        <span class="pending" title="The preprint is not posted yet">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+          arXiv &mdash; coming soon
+        </span>
+        <a href="https://github.com/mhdfb/AgentDiscover">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+          Code
+        </a>
+        <a href="#bibtex">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          BibTeX
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<!-- ───────────────────────── the search loop ──────────────────────── -->
+<section class="loop" id="how">
+  <div class="wrap">
+    <div id="search-loop" class="loop-box">
+      <div class="loop-stage-wrap"><div class="loop-stage" data-step="0"></div></div>
+
+      <div class="loop-bar">
+        <div class="loop-rail-wrap">
+          <svg class="loop-back" aria-hidden="true"></svg>
+          <div class="loop-rail" role="tablist" aria-label="Steps of the loop">
+            <button type="button" role="tab" data-step="0" aria-selected="true">Start</button>
+            <button type="button" role="tab" data-step="1" aria-selected="false"><b>1</b>Query</button>
+            <button type="button" role="tab" data-step="2" aria-selected="false"><b>2</b>Experiment</button>
+            <button type="button" role="tab" data-step="3" aria-selected="false"><b>3</b>Submit</button>
+          </div>
+        </div>
+        <div class="loop-controls">
+          <button type="button" class="loop-prev" aria-label="Previous step">&#8249;</button>
+          <button type="button" class="loop-play" aria-label="Pause">Pause</button>
+          <button type="button" class="loop-next" aria-label="Next step">&#8250;</button>
+        </div>
+      </div>
+
+      <p class="loop-caption" aria-live="polite"></p>
+    </div>
+
+    <noscript>
+      <img src="static/images/walkthrough.png"
+           alt="A walkthrough of AgentDiscover on the circle-packing toy task: worktree, query, experiment, submit, and the two loops.">
+    </noscript>
+  </div>
+</section>
+
+<!-- ──────────────────────────── abstract ──────────────────────────── -->
+<section class="abstract">
+  <div class="wrap prose prose-wide">
+    <h2 class="eyebrow">Abstract</h2>
+    <p>
+      Frameworks that use large language models for scientific discovery typically rely on a
+      fixed, human-designed algorithm that decides what the model sees at each step, leaving
+      the model only the role of proposer. The model knows nothing of the search beyond what
+      it is shown. As models grow more capable, a question arises: does a search strategy
+      chosen by a human before the run scale better than promoting the model from proposer to
+      planner and letting it own the search? <i>The Bitter Lesson</i> suggests that choosing
+      the strategy in advance is the kind of hand-designed structure that general methods
+      eventually outscale. We introduce <b>AgentDiscover</b>, in which a coding agent plans the
+      search using its context as working memory, runs experiments, and records every attempt
+      in a database of ideas, candidates, and their relations. This database serves as the
+      agent's long-term memory and is structured so that the selection rules of classical
+      algorithms such as MAP-Elites and Monte Carlo tree search each reduce to a single query,
+      which the agent is free to use, combine, or replace. A server maintains the database and
+      steers the agent after every submission, keeping it on course over long runs. In our
+      experiments, AgentDiscover is more cost-efficient than existing frameworks, reaching
+      better scores at lower cost. It achieves the best result among existing discovery
+      frameworks on the kernel builder task, and on seven past AtCoder heuristic contests its
+      programs would have placed first among human competitors in every contest. On eleven
+      mathematical and systems optimization tasks, it matches or exceeds every baseline that
+      uses the same model.
+    </p>
+  </div>
+</section>
+
+<!-- ───────────────────────────── results ──────────────────────────── -->
+<section class="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Results</span>
+      <h2 class="sec-title">Better scores for less model spend</h2>
+    </div>
+
+    <figure class="fig">
+      <img src="static/images/kernel_build.png"
+           alt="Speedup over the naive kernel against model spend. AgentDiscover reaches 154x, above the published state of the art of 135x, and reaches a 125x speedup for $10.87 against $47 to $103 for the baselines.">
+      <figcaption>
+        <b>Anthropic's kernel builder.</b> All frameworks run with the same model and the same
+        budget. AgentDiscover reaches higher scores at lower model spend.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ───────────────────────────── bibtex ───────────────────────────── -->
+<section id="bibtex" class="cite">
+  <div class="wrap prose">
+    <h2 class="eyebrow">Citation</h2>
+    <p class="note">
+      The preprint is not on arXiv yet; the identifier below will be filled in once it is posted.
+    </p>
+<pre><code>@article{farahbakhsh2026agentdiscover,
+  title   = {AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding},
+  author  = {Farahbakhsh, Mahdi and Sela, Ilan and Doudi, Fatemeh and
+             Kunde, Vishnu Teja and Narayanan, Krishna and
+             Chamberland, Jean-Francois and Kalathil, Dileep},
+  journal = {arXiv preprint arXiv:XXXX.XXXXX},
+  year    = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Texas A&amp;M University &nbsp;·&nbsp;
+    <a href="https://github.com/mhdfb/AgentDiscover">Code</a> &nbsp;·&nbsp;
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>
+  </div>
+</footer>
+
+<script src="static/js/search-loop.js" defer></script>
+</body>
+</html>
