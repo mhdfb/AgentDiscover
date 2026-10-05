@@ -3,14 +3,86 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding</title>
+<title>AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding | LLM Coding Agents for Scientific and Algorithm Discovery</title>
 
-<meta name="description" content="AgentDiscover lets a coding agent plan the search itself: it queries a graph database of every past idea and candidate, runs experiments, and submits candidates to a scoring server. Better results at lower model spend than existing discovery frameworks.">
+<meta name="description" content="AgentDiscover is an open-source framework for autonomous scientific and algorithm discovery: an LLM coding agent plans its own evolutionary search, with a graph database of ideas and candidates as long-term memory. Better results at lower cost than AlphaEvolve-style frameworks such as OpenEvolve, ShinkaEvolve, EvoX, CORAL and TTT-Discover on AtCoder heuristic contests, kernel optimization, and mathematical and systems optimization tasks.">
+<meta name="keywords" content="AgentDiscover, autonomous scientific discovery, LLM algorithm discovery, evolutionary program search, coding agent, agentic AI, agent harness, search scaffolding, MAP-Elites, Monte Carlo tree search, AlphaEvolve, OpenEvolve, ShinkaEvolve, EvoX, CORAL, TTT-Discover, FunSearch, AtCoder heuristic contest, kernel optimization, open-ended discovery">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://mhdfb.github.io/AgentDiscover/">
+
 <meta property="og:title" content="AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding">
-<meta property="og:description" content="A coding agent plans the evolutionary search itself, using a graph database of past attempts as long-term memory.">
+<meta property="og:description" content="An LLM coding agent plans its own search for scientific and algorithm discovery, using a graph database of past attempts as long-term memory. Better results at lower cost than OpenEvolve, ShinkaEvolve, EvoX, CORAL and TTT-Discover.">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://mhdfb.github.io/AgentDiscover/">
 <meta property="og:image" content="https://mhdfb.github.io/AgentDiscover/static/images/teaser.png">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding">
+<meta name="twitter:description" content="An LLM coding agent plans its own search for scientific and algorithm discovery. Better results at lower cost than OpenEvolve, ShinkaEvolve, EvoX, CORAL and TTT-Discover.">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ScholarlyArticle",
+      "@id": "https://mhdfb.github.io/AgentDiscover/#paper",
+      "headline": "AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding",
+      "alternativeHeadline": "An LLM coding agent that plans its own search for scientific and algorithm discovery",
+      "url": "https://mhdfb.github.io/AgentDiscover/",
+      "datePublished": "2026",
+      "inLanguage": "en",
+      "isAccessibleForFree": true,
+      "author": [
+        { "@type": "Person", "name": "Mahdi Farahbakhsh", "url": "https://mhdfb.github.io/" },
+        { "@type": "Person", "name": "Ilan Sela" },
+        { "@type": "Person", "name": "Fatemeh Doudi" },
+        { "@type": "Person", "name": "Vishnu Teja Kunde" },
+        { "@type": "Person", "name": "Krishna Narayanan" },
+        { "@type": "Person", "name": "Jean-Francois Chamberland" },
+        { "@type": "Person", "name": "Dileep Kalathil" }
+      ],
+      "sourceOrganization": { "@type": "CollegeOrUniversity", "name": "Texas A&M University" },
+      "abstract": "Frameworks that use large language models for scientific discovery typically rely on a fixed, human-designed search algorithm, leaving the model only the role of proposer. AgentDiscover promotes a coding agent from proposer to planner: it plans the search using its context as working memory, runs experiments, and records every attempt in a graph database of ideas, candidates, and their relations, which serves as long-term memory. Selection rules of classical algorithms such as MAP-Elites and Monte Carlo tree search each reduce to a single query. AgentDiscover reaches better scores at lower cost than existing discovery frameworks, achieves the best result on the kernel builder task, and on seven past AtCoder heuristic contests its programs would have placed first among human competitors.",
+      "keywords": [
+        "autonomous scientific discovery",
+        "LLM algorithm discovery",
+        "evolutionary program search",
+        "coding agents",
+        "agentic AI",
+        "agent harness",
+        "search scaffolding",
+        "MAP-Elites",
+        "Monte Carlo tree search",
+        "open-ended discovery",
+        "AtCoder heuristic contest",
+        "kernel optimization"
+      ],
+      "mentions": [
+        { "@type": "Thing", "name": "AlphaEvolve" },
+        { "@type": "Thing", "name": "OpenEvolve" },
+        { "@type": "Thing", "name": "ShinkaEvolve" },
+        { "@type": "Thing", "name": "EvoX" },
+        { "@type": "Thing", "name": "CORAL" },
+        { "@type": "Thing", "name": "TTT-Discover" },
+        { "@type": "Thing", "name": "FunSearch" }
+      ],
+      "citation": "Farahbakhsh, M., Sela, I., Doudi, F., Kunde, V. T., Narayanan, K., Chamberland, J.-F., Kalathil, D. (2026). AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding."
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://github.com/mhdfb/AgentDiscover",
+      "name": "AgentDiscover",
+      "description": "Open-source framework in which an LLM coding agent plans its own search for scientific and algorithm discovery, backed by a graph database of ideas and candidates and a steering server.",
+      "codeRepository": "https://github.com/mhdfb/AgentDiscover",
+      "programmingLanguage": "Python",
+      "applicationCategory": "Research software",
+      "url": "https://mhdfb.github.io/AgentDiscover/",
+      "citation": { "@id": "https://mhdfb.github.io/AgentDiscover/#paper" },
+      "author": { "@type": "Person", "name": "Mahdi Farahbakhsh", "url": "https://mhdfb.github.io/" }
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
