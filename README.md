@@ -1,7 +1,21 @@
 # AgentDiscover
 
+**Autonomous Discovery with Minimal Search Scaffolding**
+
+[**Project page**](https://mhdfb.github.io/AgentDiscover/) · Paper (arXiv, coming soon) · [BibTeX](https://mhdfb.github.io/AgentDiscover/#bibtex)
+
 Coding agents search for better solutions to open problems. Each agent writes code, gets
 it scored, and learns from what everyone tried before — all recorded in a graph database.
+
+![Fixed vs. agentic search, and the AgentDiscover architecture: a search agent in a sandbox queries a graph database of ideas and candidates, runs experiments, and submits candidates to an evaluator that scores and steers it.](docs/static/images/teaser.png)
+
+Prior frameworks run a fixed, human-designed search in which the model only proposes
+programs. AgentDiscover makes the coding agent the planner: it decides what to retrieve
+from the graph database, which experiments to run, and when to submit. On Anthropic's
+kernel builder task, seven past AtCoder heuristic contests, and eleven mathematical and
+systems optimization tasks, it reaches better scores at lower model spend than existing
+discovery frameworks. Results and details are on the
+[project page](https://mhdfb.github.io/AgentDiscover/).
 
 You need **git**, **curl**, and **one container runtime**: `docker`, `podman`,
 `apptainer`, `singularity`, or `enroot`. Nothing else — Python and the agent CLIs are
