@@ -2,7 +2,7 @@
 
 **Autonomous Discovery with Minimal Search Scaffolding**
 
-[**Project page**](https://mhdfb.github.io/AgentDiscover/) · [Paper (arXiv)](https://arxiv.org/abs/2610.05334) · [BibTeX](https://mhdfb.github.io/AgentDiscover/#bibtex)
+[**Project page**](https://mhdfb.github.io/AgentDiscover/) · [Paper (arXiv)](https://arxiv.org/abs/2610.05334) · [BibTeX](#citation)
 
 Coding agents search for better solutions to open problems. Each agent writes code, gets
 it scored, and can see what every agent before it tried, because every attempt is recorded
@@ -87,3 +87,18 @@ Don't edit `run.sh` itself.
 
 Re-running a problem **continues** where it stopped. To start over, delete
 `runs/<problem>/`.
+
+---
+
+## Citation
+
+```bibtex
+@article{farahbakhsh2026agentdiscover,
+  title   = {AgentDiscover: Autonomous Discovery with Minimal Search Scaffolding},
+  author  = {Farahbakhsh, Mahdi and Sela, Ilan and Doudi, Fatemeh and
+             Kunde, Vishnu Teja and Narayanan, Krishna and
+             Chamberland, Jean-Francois and Kalathil, Dileep},
+  journal = {arXiv preprint arXiv:2610.05334},
+  year    = {2026}
+}
+```
