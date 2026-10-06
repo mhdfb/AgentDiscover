@@ -2,7 +2,7 @@
 
 **Autonomous Discovery with Minimal Search Scaffolding**
 
-[**Project page**](https://mhdfb.github.io/AgentDiscover/) · Paper (arXiv, coming soon) · [BibTeX](https://mhdfb.github.io/AgentDiscover/#bibtex)
+[**Project page**](https://mhdfb.github.io/AgentDiscover/) · [Paper (arXiv)](https://arxiv.org/abs/2610.05334) · [BibTeX](https://mhdfb.github.io/AgentDiscover/#bibtex)
 
 Coding agents search for better solutions to open problems. Each agent writes code, gets
 it scored, and can see what every agent before it tried, because every attempt is recorded
